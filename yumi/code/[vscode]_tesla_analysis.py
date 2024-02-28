@@ -68,8 +68,8 @@ stock_daily_volume = data_df['거래량']
 news_daily_cnt = data_df['기사갯수']
 
 #총 기사개수/거래량 수
-#stock_volume = data_df['거래량'].sum()
-#news_cnt = data_df['기사갯수'].sum()
+stock_volume = data_df['거래량'].sum()
+news_cnt = data_df['기사갯수'].sum()
 #print('2023년 기사 개수 :', news_cnt)
 
 
@@ -89,10 +89,10 @@ n_splits = 5
 alphas = [0.001, 0.01, 0.1, 1, 10, 100]
 
 #라쏘회귀 실행
-print(modeling.LASSO_KFold(X, y, alpha, n_splits))
+modeling.LASSO_KFold(X, y, alpha, n_splits)
 
 # 최적의 alpha 찾기
-print(modeling.optimize_alpha(X, y, alphas, n_splits))
+modeling.optimize_alpha(X, y, alphas, n_splits)
 
 print("---------------------LDA 모델링------------------------")
 
@@ -134,6 +134,12 @@ if __name__ == '__main__':
 
   for t in lda.print_topics():
     print(t[0],":",t[1])
+
+  #반환되는 토픽의 확률 중 최소값 설정: 0.05 미만 분포는 무시
+  all_topics = lda.get_document_topics(corpus_TFIDF, minimum_probability=0.05, per_word_topics = True)
+
+  for idx, topic in enumerate(all_topics[:30]):
+      print(idx, topic)
 
   #로그 혼란도(0에 가까울수록 성능이 높음)
   lda.log_perplexity(corpus_TFIDF)

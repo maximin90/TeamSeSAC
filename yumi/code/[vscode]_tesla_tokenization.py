@@ -36,7 +36,7 @@ print('word_df.shape : {}, words_df.shape : {} '.format(words_df.shape, words_df
 #공백으로 본문 내용 split
 words_list = words_df['content_data'].str.split()
 word_counter(words_list)
-#print(words_list[:10])
+print(words_list[:10])
 
 #기사 내용을 토큰화
 docs = words_df['content_data']
